@@ -45,6 +45,10 @@ Uso de `sessionStorage` para controle de interface. Ao logar, os formulários de
 
 ## 🚀 Como Rodar o Projeto
 
+### Usuário de testes pré criado(é totalmente possível criar seu próprio usuário):
+- Login: teste@teste.com
+- Senha: Teste@123
+
 ### 📋 Pré-requisitos
 - **[Node.js](https://nodejs.org/pt-br)** instalado (versão **16+** recomendada)
 - Caso o projeto esteja zipado, extraia a pasta completa antes de prosseguir

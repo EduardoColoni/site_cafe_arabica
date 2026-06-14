@@ -13,15 +13,6 @@ dist/
 public/js/script.js
 
 # ==========================================
-# BANCO DE DADOS LOCAL
-# ==========================================
-# Ignora o banco SQLite para não vazar dados reais ou sobrescrever em outros PCs
-*.db
-*.sqlite
-banco_cafe.db
-banco_cafe.db-journal
-
-# ==========================================
 # VARIÁVEIS DE AMBIENTE E SEGURANÇA
 # ==========================================
 .env

@@ -280,6 +280,125 @@
                 </div>
             </div>
         </section>
+        </section>
+
+        <div class="modal fade" id="editarComentarioModal" tabindex="-1" aria-labelledby="editarComentarioModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content shadow-lg">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editarComentarioModalLabel"><i class="fas fa-edit"></i> Editar Avaliação</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="editComentarioId">
+                        <div class="mb-2">
+                            <label for="editComentarioTexto" class="form-label fw-bold">Seu Comentário:</label>
+                            <textarea class="form-control" id="editComentarioTexto" rows="4" placeholder="Altere seu comentário aqui..."></textarea>
+                            <div id="editComentarioFeedback" class="mt-2 small" style="display: none;"></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-top-0">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary px-4" onclick="salvarEdicaoComentario()">Salvar Alterações</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="excluirComentarioModal" tabindex="-1" aria-labelledby="excluirComentarioModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content shadow-lg border-danger">
+                    <div class="modal-header" style="background: #dc3545 !important; border-bottom: none;">
+                        <h5 class="modal-title text-white" id="excluirComentarioModalLabel"><i class="fas fa-exclamation-triangle"></i> Confirmar Exclusão</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                    </div>
+                    <div class="modal-body text-center py-4">
+                        <input type="hidden" id="deleteComentarioId">
+                        <i class="fas fa-trash-alt text-danger mb-3" style="font-size: 3.5rem; opacity: 0.8;"></i>
+                        <h5 class="mb-3 text-reset">Tem certeza que deseja excluir esta avaliação?</h5>
+                        <p class="text-muted small mb-0">Esta ação apagará o comentário permanentemente e não pode ser desfeita.</p>
+                    </div>
+                    <div class="modal-footer justify-content-center border-top-0 bg-light rounded-bottom">
+                        <button type="button" class="btn btn-outline-secondary px-4 fw-bold" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-danger px-4 fw-bold shadow-sm" onclick="confirmarExclusaoComentario()">Sim, Excluir</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="perfilUsuarioModal" tabindex="-1" aria-labelledby="perfilUsuarioModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content shadow-lg">
+                    <div class="modal-header theme-header border-0">
+                        <h5 class="modal-title text-white" id="perfilUsuarioModalLabel"><i class="fas fa-user-cog"></i> Painel da Conta</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                    </div>
+                    <div class="modal-body p-4">
+                        <div id="perfilFeedback" class="alert small mb-3" style="display: none;"></div>
+                        
+                        <div class="mb-3">
+                            <label for="perfilNome" class="form-label fw-bold">Alterar seu Nome:</label>
+                            <input type="text" class="form-control" id="perfilNome" placeholder="Seu nome">
+                        </div>
+                        <div class="mb-3">
+                            <label for="perfilSobrenome" class="form-label fw-bold">Alterar seu Sobrenome:</label>
+                            <input type="text" class="form-control" id="perfilSobrenome" placeholder="Seu sobrenome">
+                        </div>
+                        <div class="mb-4">
+                            <label for="perfilEmail" class="form-label fw-bold">Alterar seu E-mail:</label>
+                            <input type="email" class="form-control" id="perfilEmail" placeholder="seu@email.com">
+                        </div>
+                        
+                        <hr class="text-muted">
+                        
+                        <div class="d-flex flex-column gap-2 mt-4">
+                            <button class="btn btn-outline-secondary fw-bold" onclick="sairDaConta()"><i class="fas fa-sign-out-alt"></i> Sair da Conta (Logout)</button>
+                            <button class="btn btn-outline-danger fw-bold" onclick="deletarMinhaConta()"><i class="fas fa-user-times"></i> Excluir Minha Conta Definitivamente</button>
+                        </div>
+                    </div>
+                    <div class="modal-footer bg-light border-top-0">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-success px-4 fw-bold" onclick="salvarAlteracoesPerfil()">Salvar Alterações</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<!-- NOVO 1: Modal para Confirmar Exclusão de Conta -->
+        <div class="modal fade" id="excluirContaModal" tabindex="-1" aria-labelledby="excluirContaModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content shadow-lg border-danger">
+                    <div class="modal-header" style="background: #dc3545 !important; border-bottom: none;">
+                        <h5 class="modal-title text-white" id="excluirContaModalLabel"><i class="fas fa-exclamation-triangle"></i> Excluir Conta</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                    </div>
+                    <div class="modal-body text-center py-4">
+                        <i class="fas fa-user-times text-danger mb-3" style="font-size: 3.5rem; opacity: 0.8;"></i>
+                        <h5 class="mb-3 text-reset">Tem certeza que deseja excluir sua conta?</h5>
+                        <p class="text-muted small mb-0">TODOS os seus comentários serão apagados permanentemente e isso <strong>não pode ser desfeito</strong>.</p>
+                        <div id="excluirContaFeedback" class="alert mt-3 small" style="display: none;"></div>
+                    </div>
+                    <div class="modal-footer justify-content-center border-top-0 bg-light rounded-bottom">
+                        <button type="button" class="btn btn-outline-secondary px-4 fw-bold" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-danger px-4 fw-bold shadow-sm" onclick="confirmarExclusaoConta()">Sim, Excluir Minha Conta</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="sucessoExcluirContaModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="sucessoExcluirContaLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content shadow-lg border-success">
+                    <div class="modal-body text-center py-5">
+                        <i class="fas fa-check-circle text-success mb-3" style="font-size: 4rem;"></i>
+                        <h4 class="mb-3 text-reset">Conta Excluída</h4>
+                        <p class="text-muted mb-4">Sua conta e seus comentários foram apagados. Sentiremos sua falta!</p>
+                        <button type="button" class="btn btn-success px-5 fw-bold" onclick="finalizarExclusaoConta()">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </main>
 
 <%- include('partials/footer.ejs') %>

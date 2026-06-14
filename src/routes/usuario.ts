@@ -1,10 +1,13 @@
 import { Router } from 'express';
-import { cadastrarUsuario, realizarLogin } from '../controllers/UsuarioController';
+import { cadastrarUsuario, realizarLogin, atualizarUsuario, deletarUsuario } from '../controllers/UsuarioController';
 
 const router = Router();
 
-// Define as rotas que vão receber os dados do seu script.js
 router.post('/cadastrar', cadastrarUsuario);
 router.post('/login', realizarLogin);
+
+// Novas rotas para o Painel de Perfil
+router.put('/atualizar/:id', atualizarUsuario);
+router.delete('/deletar/:id', deletarUsuario);
 
 export default router;

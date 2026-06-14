@@ -163,44 +163,48 @@ function validarEmail(email: string): boolean {
 // LÓGICA DE NEGÓCIO E INTEGRAÇÃO API
 // ============================================
 
-// 1. GERENCIAMENTO DE SESSÃO
+// 1. GERENCIAMENTO DE SESSÃO E PERFIL
 function verificarEstadoLogin(): void {
     const usuarioId = sessionStorage.getItem('usuarioId');
     const usuarioNome = sessionStorage.getItem('usuarioNome');
+    const usuarioSobrenome = sessionStorage.getItem('usuarioSobrenome'); // ADICIONADO
+    const usuarioEmail = sessionStorage.getItem('usuarioEmail');
     
     const navbarLoginBtn = document.getElementById('navbarLoginBtn') as HTMLElement;
     const comentarioForm = document.getElementById('comentarioForm') as HTMLFormElement;
     const comentarioLoginMsg = document.getElementById('comentarioLoginMsg') as HTMLElement;
 
-    // Elementos de inscrição devem sumir
     const secaoFormulario = document.getElementById('formulario');
     const linksInscricao = document.querySelectorAll('a[href="#formulario"]');
 
     if (usuarioId && usuarioNome) {
-        // Usuário está Logado
         if (navbarLoginBtn) {
-            navbarLoginBtn.innerHTML = `<i class="fas fa-user-check"></i> Olá, ${usuarioNome} (Sair)`;
+            navbarLoginBtn.innerHTML = `<i class="fas fa-user-cog"></i> Olá, ${usuarioNome} (Perfil)`;
             
             if (navbarLoginBtn.classList.contains('btn-primary')) {
                 navbarLoginBtn.classList.replace('btn-primary', 'btn-success');
             }
             
-            navbarLoginBtn.removeAttribute('data-bs-toggle');
-            navbarLoginBtn.removeAttribute('data-bs-target');
-            navbarLoginBtn.onclick = () => {
-                sessionStorage.clear();
-                window.location.reload(); // Atualiza a página ao sair e traz os botões de volta
-            };
+            navbarLoginBtn.setAttribute('data-bs-toggle', 'modal');
+            navbarLoginBtn.setAttribute('data-bs-target', '#perfilUsuarioModal');
+            navbarLoginBtn.onclick = null; 
         }
+
+        // Preenche os 3 dados no modal do Perfil para o usuário
+        const inputNome = document.getElementById('perfilNome') as HTMLInputElement;
+        const inputSobrenome = document.getElementById('perfilSobrenome') as HTMLInputElement; // ADICIONADO
+        const inputEmail = document.getElementById('perfilEmail') as HTMLInputElement;
+        
+        if (inputNome) inputNome.value = usuarioNome;
+        if (inputSobrenome) inputSobrenome.value = usuarioSobrenome || ''; // ADICIONADO
+        if (inputEmail) inputEmail.value = usuarioEmail || '';
+
         if (comentarioForm && comentarioLoginMsg) {
             comentarioForm.style.display = 'block';
             comentarioLoginMsg.style.display = 'none';
         }
 
-        // Oculta a área de inscrição e todos os botões/links que levam a ela
-        if (secaoFormulario) {
-            secaoFormulario.style.display = 'none';
-        }
+        if (secaoFormulario) secaoFormulario.style.display = 'none';
         linksInscricao.forEach(link => {
             const parentLi = link.closest('li');
             if (parentLi) {
@@ -212,10 +216,166 @@ function verificarEstadoLogin(): void {
     }
 }
 
+// FUNÇÕES DO PAINEL DA CONTA (Sair, Salvar e Excluir)
+(window as any).sairDaConta = () => {
+    sessionStorage.clear();
+    window.location.reload();
+};
+
+(window as any).salvarAlteracoesPerfil = async () => {
+    const usuarioId = sessionStorage.getItem('usuarioId');
+    if (!usuarioId) return;
+
+    const nomeInput = document.getElementById('perfilNome') as HTMLInputElement;
+    const sobrenomeInput = document.getElementById('perfilSobrenome') as HTMLInputElement;
+    const emailInput = document.getElementById('perfilEmail') as HTMLInputElement;
+    const feedback = document.getElementById('perfilFeedback') as HTMLElement;
+
+    // Pega o que o usuário digitou
+    const nome = nomeInput.value.trim();
+    const sobrenome = sobrenomeInput.value.trim();
+    const email = emailInput.value.trim();
+
+    const dadosParaAtualizar: any = {};
+    let temErro = false;
+    let mensagemErro = '';
+
+    // LÓGICA DE VALIDAÇÃO INDIVIDUALIZADA
+    if (nome !== "") {
+        if (nome.length < 2) { temErro = true; mensagemErro = 'O nome precisa ter pelo menos 2 letras.'; }
+        else { dadosParaAtualizar.nome = nome; }
+    }
+    if (sobrenome !== "" && !temErro) {
+        if (sobrenome.length < 2) { temErro = true; mensagemErro = 'O sobrenome precisa ter pelo menos 2 letras.'; }
+        else { dadosParaAtualizar.sobrenome = sobrenome; }
+    }
+    if (email !== "" && !temErro) {
+        if (!validarEmail(email)) { temErro = true; mensagemErro = 'Informe um e-mail válido com @.'; }
+        else { dadosParaAtualizar.email = email; }
+    }
+
+    // Se cometeu erro de digitação
+    if (temErro) {
+        feedback.className = 'alert alert-danger small mt-2';
+        feedback.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${mensagemErro}`;
+        feedback.style.display = 'block';
+        return;
+    }
+
+    // Se o usuário apagou tudo e não enviou nada novo
+    if (Object.keys(dadosParaAtualizar).length === 0) {
+        feedback.className = 'alert alert-warning small mt-2';
+        feedback.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Preencha pelo menos um campo para alterar.';
+        feedback.style.display = 'block';
+        return;
+    }
+
+    try {
+        const response = await fetch(`/usuario/atualizar/${usuarioId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(dadosParaAtualizar)
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            if (data.nome) sessionStorage.setItem('usuarioNome', data.nome);
+            if (data.sobrenome) sessionStorage.setItem('usuarioSobrenome', data.sobrenome);
+            if (data.email) sessionStorage.setItem('usuarioEmail', data.email);
+            
+            feedback.className = 'alert alert-success small mt-2';
+            feedback.innerHTML = '<i class="fas fa-check-circle"></i> ' + data.message;
+            feedback.style.display = 'block';
+            
+            verificarEstadoLogin(); 
+            carregarComentarios();  
+            
+            setTimeout(() => {
+                const modal = bootstrap.Modal.getInstance(document.getElementById('perfilUsuarioModal'));
+                modal?.hide();
+                feedback.style.display = 'none';
+            }, 1500);
+        } else {
+            feedback.className = 'alert alert-danger small mt-2';
+            feedback.innerHTML = '<i class="fas fa-times-circle"></i> ' + data.error;
+            feedback.style.display = 'block';
+        }
+    } catch (error) {
+        console.error("Erro ao atualizar perfil:", error);
+    }
+};
+
+(window as any).deletarMinhaConta = () => {
+    const usuarioId = sessionStorage.getItem('usuarioId');
+    if (!usuarioId) return;
+
+    // 1. Esconde o modal de perfil atual
+    const perfilModalElement = document.getElementById('perfilUsuarioModal');
+    if (perfilModalElement) {
+        const perfilModal = bootstrap.Modal.getInstance(perfilModalElement);
+        if (perfilModal) perfilModal.hide();
+    }
+
+    // 2. Abre o modal estilizado de confirmação
+    const modalElement = document.getElementById('excluirContaModal');
+    if (modalElement) {
+        const modal = new bootstrap.Modal(modalElement);
+        modal.show();
+    }
+};
+
+// Conecta com o servidor e apaga quando o botão "Sim, Excluir" é clicado
+(window as any).confirmarExclusaoConta = async () => {
+    const usuarioId = sessionStorage.getItem('usuarioId');
+    if (!usuarioId) return;
+
+    const feedback = document.getElementById('excluirContaFeedback') as HTMLElement;
+
+    try {
+        const response = await fetch(`/usuario/deletar/${usuarioId}`, {
+            method: 'DELETE'
+        });
+
+        if (response.ok) {
+            // Esconde o modal de confirmação
+            const confirmModalElement = document.getElementById('excluirContaModal');
+            if (confirmModalElement) {
+                const confirmModal = bootstrap.Modal.getInstance(confirmModalElement);
+                if (confirmModal) confirmModal.hide();
+            }
+
+            // Mostra o modal de sucesso (Despedida)
+            const successModalElement = document.getElementById('sucessoExcluirContaModal');
+            if (successModalElement) {
+                const successModal = new bootstrap.Modal(successModalElement);
+                successModal.show();
+            }
+        } else {
+            const data = await response.json();
+            if (feedback) {
+                feedback.className = 'alert alert-danger small mt-2';
+                feedback.innerHTML = `<i class="fas fa-times-circle"></i> Erro ao excluir conta: ${data.error}`;
+                feedback.style.display = 'block';
+            }
+        }
+    } catch (error) {
+        console.error("Erro ao excluir conta:", error);
+    }
+};
+
+// Recarrega a página após o usuário clicar em "OK" na despedida
+(window as any).finalizarExclusaoConta = () => {
+    sessionStorage.clear();
+    window.location.reload();
+};
+
 // 2. SISTEMA DE COMENTÁRIOS
 async function carregarComentarios(): Promise<void> {
     const listaContainer = document.getElementById('listaComentarios');
     if (!listaContainer) return;
+
+    const usuarioIdAtual = sessionStorage.getItem('usuarioId');
 
     try {
         const response = await fetch('/comentario/lista');
@@ -232,17 +392,35 @@ async function carregarComentarios(): Promise<void> {
             const dataFormatada = new Date(coment.createdAt).toLocaleDateString('pt-BR');
             const nomeAutor = coment.autor ? `${coment.autor.nome} ${coment.autor.sobrenome}` : 'Usuário Anônimo';
 
+            // ESTILIZAÇÃO: Botões de ação arredondados e alinhados à direita
+            let botoesAcao = '';
+            if (usuarioIdAtual && String(coment.usuarioId) === String(usuarioIdAtual)) {
+                const textoEscapado = coment.texto.replace(/'/g, "\\'").replace(/"/g, "&quot;").replace(/\n/g, "\\n");
+                
+                botoesAcao = `
+                    <div class="mt-3 pt-3 border-top border-light d-flex justify-content-end gap-2">
+                        <button class="btn btn-sm btn-primary rounded-pill px-3 shadow-sm" onclick="abrirModalEditarComentario(${coment.id}, '${textoEscapado}')">
+                            <i class="fas fa-edit"></i> Editar
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger rounded-pill px-3 shadow-sm" onclick="deletarMeuComentario(${coment.id})">
+                            <i class="fas fa-trash-alt"></i> Excluir
+                        </button>
+                    </div>
+                `;
+            }
+
             const comentarioHTML = `
                 <div class="comment-card shadow-sm">
                     <div class="d-flex justify-content-between align-items-center mb-2">
                         <span class="comment-author"><i class="fas fa-user-circle"></i> ${nomeAutor}</span>
-                        <span class="comment-date text-muted small">${dataFormatada}</span>
+                        <span class="comment-date small">${dataFormatada}</span>
                     </div>
                     <div class="comment-meta mb-2">
                         <span class="badge bg-success me-1"><i class="fas fa-coffee"></i> ${coment.tipoCafe}</span>
                         <span class="badge bg-secondary"><i class="fas fa-mug-hot"></i> ${coment.metodoPreparo}</span>
                     </div>
                     <p class="comment-text mb-0">${coment.texto}</p>
+                    ${botoesAcao}
                 </div>
             `;
             listaContainer.innerHTML += comentarioHTML;
@@ -251,6 +429,137 @@ async function carregarComentarios(): Promise<void> {
         listaContainer.innerHTML = '<div class="alert alert-danger text-center">Erro ao carregar os comentários.</div>';
     }
 }
+
+// FUNÇÕES DE AÇÃO DO USUÁRIO
+(window as any).abrirModalEditarComentario = (id: number, textoAtual: string) => {
+    const idInput = document.getElementById('editComentarioId') as HTMLInputElement;
+    const textoInput = document.getElementById('editComentarioTexto') as HTMLTextAreaElement;
+    const feedback = document.getElementById('editComentarioFeedback') as HTMLElement;
+
+    if (idInput && textoInput) {
+        // Preenche os dados no Modal
+        idInput.value = id.toString();
+        textoInput.value = textoAtual.replace(/\\n/g, '\n'); 
+        
+        // Limpa erros antigos se houver
+        textoInput.classList.remove('is-invalid');
+        if (feedback) feedback.style.display = 'none';
+
+        // Abre o Modal graciosamente
+        const modalElement = document.getElementById('editarComentarioModal');
+        if (modalElement) {
+            const modal = new bootstrap.Modal(modalElement);
+            modal.show();
+        }
+    }
+};
+
+(window as any).salvarEdicaoComentario = async () => {
+    const usuarioId = sessionStorage.getItem('usuarioId');
+    if (!usuarioId) return;
+
+    const idInput = document.getElementById('editComentarioId') as HTMLInputElement;
+    const textoInput = document.getElementById('editComentarioTexto') as HTMLTextAreaElement;
+    const feedback = document.getElementById('editComentarioFeedback') as HTMLElement;
+    
+    const id = idInput.value;
+    const novoTexto = textoInput.value.trim();
+
+    // VALIDAÇÃO VISUAL (Sem alert)
+    if (novoTexto.length < 5) {
+        textoInput.classList.add('is-invalid');
+        feedback.className = 'text-danger fw-bold mt-1';
+        feedback.innerHTML = '<i class="fas fa-exclamation-circle"></i> O comentário deve ter pelo menos 5 caracteres.';
+        feedback.style.display = 'block';
+        return;
+    } else {
+        textoInput.classList.remove('is-invalid');
+        feedback.style.display = 'none';
+    }
+
+    try {
+        const response = await fetch(`/comentario/editar/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ texto: novoTexto, usuarioId })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            // Fecha o modal após sucesso
+            const modalElement = document.getElementById('editarComentarioModal');
+            if (modalElement) {
+                const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                if (modalInstance) {
+                    modalInstance.hide();
+                }
+            }
+            carregarComentarios(); // Recarrega a tela instantaneamente
+        } else {
+            // Mostra erro do servidor visualmente
+            textoInput.classList.add('is-invalid');
+            feedback.className = 'text-danger fw-bold mt-1';
+            feedback.innerHTML = `<i class="fas fa-times-circle"></i> ${data.error}`;
+            feedback.style.display = 'block';
+        }
+    } catch (error) {
+        console.error("Erro ao editar o comentário:", error);
+    }
+};
+
+// FUNÇÃO MODIFICADA: Apenas abre o modal e guarda o ID
+(window as any).deletarMeuComentario = (id: number) => {
+    const usuarioId = sessionStorage.getItem('usuarioId');
+    if (!usuarioId) return;
+
+    // Guarda o ID do comentário no input invisível do modal
+    const idInput = document.getElementById('deleteComentarioId') as HTMLInputElement;
+    if (idInput) {
+        idInput.value = id.toString();
+        
+        // Abre o Modal graciosamente
+        const modalElement = document.getElementById('excluirComentarioModal');
+        if (modalElement) {
+            const modal = new bootstrap.Modal(modalElement);
+            modal.show();
+        }
+    }
+};
+
+(window as any).confirmarExclusaoComentario = async () => {
+    const usuarioId = sessionStorage.getItem('usuarioId');
+    const idInput = document.getElementById('deleteComentarioId') as HTMLInputElement;
+    
+    if (!usuarioId || !idInput) return;
+
+    const id = idInput.value;
+
+    try {
+        const response = await fetch(`/comentario/deletar/${id}`, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ usuarioId })
+        });
+
+        if (response.ok) {
+            // Esconde o modal automaticamente
+            const modalElement = document.getElementById('excluirComentarioModal');
+            if (modalElement) {
+                const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                if (modalInstance) {
+                    modalInstance.hide();
+                }
+            }
+            carregarComentarios(); // Recarrega a tela instantaneamente
+        } else {
+            const data = await response.json();
+            alert("Erro ao excluir: " + data.error);
+        }
+    } catch (error) {
+        console.error("Erro ao excluir o comentário:", error);
+    }
+};
 
 async function enviarComentario(event: Event): Promise<void> {
     event.preventDefault();
@@ -414,6 +723,8 @@ async function realizarLogin(): Promise<void> {
         if (response.ok) {
             sessionStorage.setItem('usuarioId', data.id);
             sessionStorage.setItem('usuarioNome', data.nome);
+            sessionStorage.setItem('usuarioSobrenome', data.sobrenome); // ADICIONADO AQUI
+            sessionStorage.setItem('usuarioEmail', data.email); 
             
             loginMessage.className = 'alert alert-success';
             loginMessage.innerHTML = `<i class="fas fa-check-circle"></i> Bem-vindo, ${data.nome}!`;

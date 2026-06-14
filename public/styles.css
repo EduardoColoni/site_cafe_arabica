@@ -118,7 +118,7 @@ body {
 .btn-primary {
     background-color: var(--accent-color);
     border-color: var(--accent-color);
-    color: #1a1a1a !important;
+    color: #ffffff !important;
     font-weight: 600;
 }
 
@@ -1020,5 +1020,12 @@ a:visited {
     /* Nova regra para clarear a data no modo escuro */
     .comment-date {
         color: #a0a0a0 !important;
+    }
+     .modal-title {
+        color: #ffffff !important;
+    }
+
+    .text-muted {
+        color: #b0b0b0 !important;
     }
 }

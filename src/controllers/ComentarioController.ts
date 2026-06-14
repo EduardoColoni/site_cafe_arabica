@@ -64,3 +64,70 @@ export const listarComentarios = async (req: Request, res: Response): Promise<vo
     res.status(500).json({ error: "Erro ao buscar comentários.", details: error.message });
   }
 };
+
+// ==========================================
+// CRUD: UPDATE (EDITAR)
+// ==========================================
+export const editarComentario = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params; // ID do comentário na URL
+    const { texto, usuarioId } = req.body; // Dados novos e quem está pedindo
+
+    // CONVERSÃO APLICADA AQUI: Number(id)
+    const comentario: any = await Comentario.findByPk(Number(id));
+
+    if (!comentario) {
+      res.status(404).json({ error: "Comentário não encontrado." });
+      return;
+    }
+
+    // Regra de Segurança: Garante que só o dono pode editar
+    if (String(comentario.usuarioId) !== String(usuarioId)) {
+      res.status(403).json({ error: "Você só pode editar os seus próprios comentários." });
+      return;
+    }
+
+    if (!texto || texto.trim().length < 5) {
+      res.status(400).json({ error: "O texto editado deve ter pelo menos 5 caracteres." });
+      return;
+    }
+
+    // Atualiza o banco de dados
+    await comentario.update({ texto });
+
+    res.status(200).json({ message: "Comentário atualizado com sucesso!" });
+  } catch (error: any) {
+    res.status(500).json({ error: "Erro ao atualizar comentário.", details: error.message });
+  }
+};
+
+// ==========================================
+// CRUD: DELETE (EXCLUIR)
+// ==========================================
+export const deletarComentario = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const { usuarioId } = req.body;
+
+    // CONVERSÃO APLICADA AQUI: Number(id)
+    const comentario: any = await Comentario.findByPk(Number(id));
+
+    if (!comentario) {
+      res.status(404).json({ error: "Comentário não encontrado." });
+      return;
+    }
+
+    // Regra de Segurança: Garante que só o dono pode excluir
+    if (String(comentario.usuarioId) !== String(usuarioId)) {
+      res.status(403).json({ error: "Você só pode excluir os seus próprios comentários." });
+      return;
+    }
+
+    // Remove do banco de dados
+    await comentario.destroy();
+
+    res.status(200).json({ message: "Comentário excluído com sucesso!" });
+  } catch (error: any) {
+    res.status(500).json({ error: "Erro ao excluir comentário.", details: error.message });
+  }
+};
