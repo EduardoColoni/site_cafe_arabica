@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["DOM", "ES2022", "DOM.Iterable"],
+    "module": "ES2022",
+    "moduleResolution": "bundler",
+    "rootDir": "./frontend",
+    "outDir": "./public/js",
+    "strict": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["frontend/**/*"],
+  "exclude": ["public/**/*"]
+}

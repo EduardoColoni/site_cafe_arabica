@@ -1,0 +1,45 @@
+# ==========================================
+# DEPENDÊNCIAS
+# ==========================================
+node_modules/
+
+# ==========================================
+# ARQUIVOS COMPILADOS (BUILD)
+# ==========================================
+# Ignora a pasta dist (backend compilado)
+dist/
+
+# Ignora o JS do front-end que é gerado automaticamente pelo TypeScript
+public/js/script.js
+
+# ==========================================
+# BANCO DE DADOS LOCAL
+# ==========================================
+# Ignora o banco SQLite para não vazar dados reais ou sobrescrever em outros PCs
+*.db
+*.sqlite
+banco_cafe.db
+banco_cafe.db-journal
+
+# ==========================================
+# VARIÁVEIS DE AMBIENTE E SEGURANÇA
+# ==========================================
+.env
+.env.local
+.env.*.local
+
+# ==========================================
+# LOGS E ARQUIVOS DE DEBUG
+# ==========================================
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# ==========================================
+# ARQUIVOS DE SISTEMA OPERACIONAL / EDITORES
+# ==========================================
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

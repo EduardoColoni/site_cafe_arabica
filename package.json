@@ -1,0 +1,33 @@
+{
+  "name": "site_cafe_arabica",
+  "version": "1.0.0",
+  "description": "**Aluno:** Eduardo Henrique Ramos Coloni",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "script.js",
+"scripts": {
+    "dev": "nodemon --exec ts-node src/server.ts",
+    "build:back": "tsc",
+    "build:front": "tsc -p tsconfig.frontend.json",
+    "build": "npm run build:back && npm run build:front",
+    "start": "node dist/server.js"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "ejs": "^6.0.1",
+    "express": "^5.2.1",
+    "sequelize": "^6.37.8",
+    "sqlite3": "^6.0.1"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.9.2",
+    "@types/sequelize": "^4.28.20",
+    "nodemon": "^3.1.14",
+    "sequelize-cli": "^6.6.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.3"
+  }
+}

@@ -1,0 +1,285 @@
+<%- include('partials/header.ejs') %>
+
+<body>
+    
+    <%- include('partials/navbar.ejs') %>
+
+    <main>
+        <section id="home" class="hero-section">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6">
+                        <h1 class="display-4">A Excelência do Café Arábica</h1>
+                        <p class="lead">Conheça a história, as variedades e o que torna o café arábica a escolha preferida dos especialistas ao redor do mundo.</p>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                            <a href="#formulario" class="btn btn-primary btn-lg">Inscreva-se Agora</a>
+                            <a href="#sobre" class="btn btn-outline-primary btn-lg">Saiba Mais</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mt-5 mt-lg-0">
+                        <img src="/images/9nAdX9Kpih7S.webp" alt="Grãos de café arábica com paisagem de plantação ao fundo" class="img-fluid rounded shadow" fetchpriority="high">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="sobre" class="section-about py-5 bg-light">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 mb-4 mb-lg-0">
+                        <img src="/images/I8NzWfrCnxi2.webp" alt="Comparação visual entre café arábica e robusta" loading="lazy" class="img-fluid rounded shadow">
+                    </div>
+                    <div class="col-lg-6 article-content">
+                        <h2 class="section-title text-start">O que é Café Arábica?</h2>
+                        <p>O café arábica (Coffea arabica) é originário das terras altas da Etiópia e representa cerca de 60% da produção mundial de café. É conhecido por seu perfil de sabor complexo e suave.</p>
+                        <h3>Origem e História</h3>
+                        <p>Segundo a lenda, um pastor chamado Kaldi observou que suas cabras ficavam mais ativas após consumirem as cerejas de um determinado arbusto. Esse foi o início de uma relação milenar entre humanos e café.</p>
+                        <h3>Características Principais</h3>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check text-success"></i> <strong>Sabor:</strong> Suave, equilibrado com notas frutadas e florais</li>
+                            <li><i class="fas fa-check text-success"></i> <strong>Aroma:</strong> Complexo com toques de chocolate e noz</li>
+                            <li><i class="fas fa-check text-success"></i> <strong>Forma do Grão:</strong> Alongado e plano</li>
+                            <li><i class="fas fa-check text-success"></i> <strong>Altitude de Cultivo:</strong> Entre 600 e 2.000 metros</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="diferencas" class="section-differences py-5">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2 class="section-title">Diferenças Entre Tipos de Café</h2>
+                    <p class="lead">Entenda por que o Arábica se destaca dos cafés tradicionais e extra fortes.</p>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <article class="card card-comparison h-100">
+                            <div class="card-header bg-primary text-center">
+                                <h3 class="h5 mb-0 text-white">Café Arábica</h3>
+                            </div>
+                            <div class="card-body">
+                                <img src="/images/OotnQEs1IkIS.webp" alt="Grãos de café arábica selecionados" loading="lazy" class="img-fluid mb-3 rounded">
+                                <ul class="list-unstyled">
+                                    <li><i class="fas fa-check text-success"></i> Sabor: Suave e equilibrado</li>
+                                    <li><i class="fas fa-check text-success"></i> Cafeína: 0,8-1,4%</li>
+                                    <li><i class="fas fa-check text-success"></i> Preço: Premium</li>
+                                    <li><i class="fas fa-check text-success"></i> Qualidade: Excelente</li>
+                                </ul>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <article class="card card-comparison h-100">
+                            <div class="card-header bg-info text-center">
+                                <h3 class="h5 mb-0 text-white">Café Tradicional</h3>
+                            </div>
+                            <div class="card-body">
+                                <img src="/images/r2QG2kAEAvo5.webp" alt="Café moído de estilo tradicional" loading="lazy" class="img-fluid mb-3 rounded">
+                                <ul class="list-unstyled">
+                                    <li><i class="fas fa-times text-danger"></i> Sabor: Padrão</li>
+                                    <li><i class="fas fa-times text-danger"></i> Cafeína: Variável</li>
+                                    <li><i class="fas fa-times text-danger"></i> Preço: Acessível</li>
+                                    <li><i class="fas fa-times text-danger"></i> Qualidade: Boa</li>
+                                </ul>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <article class="card card-comparison h-100">
+                            <div class="card-header bg-danger text-center">
+                                <h3 class="h5 mb-0 text-white">Café Extra Forte</h3>
+                            </div>
+                            <div class="card-body">
+                                <img src="/images/YALtTOUxigJp.webp" alt="Xícara de café extra forte e escuro" loading="lazy" class="img-fluid mb-3 rounded">
+                                <ul class="list-unstyled">
+                                    <li><i class="fas fa-exclamation-triangle text-warning"></i> Sabor: Intenso e amargo</li>
+                                    <li><i class="fas fa-exclamation-triangle text-warning"></i> Cafeína: 1,7-4%</li>
+                                    <li><i class="fas fa-exclamation-triangle text-warning"></i> Preço: Variável</li>
+                                    <li><i class="fas fa-exclamation-triangle text-warning"></i> Qualidade: Padrão</li>
+                                </ul>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="classificacoes" class="section-classifications py-5 bg-light">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2 class="section-title">Classificações do Café Arábica</h2>
+                    <p class="lead">Os níveis de qualidade estabelecidos pela BSCA e ABIC.</p>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <article class="card card-classification h-100">
+                            <div class="card-header bg-warning text-white">
+                                <h3 class="h5 mb-0"><i class="fas fa-gem"></i> Café Especial</h3>
+                            </div>
+                            <div class="card-body">
+                                <img src="/images/cGQ5V4HqufJj.webp" alt="Café de classificação especial" loading="lazy" class="img-fluid mb-3 rounded">
+                                <p><strong>Pontuação:</strong> 80+ pontos</p>
+                                <p>O topo da pirâmide. Sem defeitos, sabor refinado e rastreabilidade total.</p>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <article class="card card-classification h-100">
+                            <div class="card-header bg-warning text-dark">
+                                <h3 class="h5 mb-0"><i class="fas fa-gem"></i> Café Gourmet</h3>
+                            </div>
+                            <div class="card-body">
+                                <img src="/images/Ks6rqwOwYWFK.webp" alt="Grãos de café gourmet" loading="lazy" class="img-fluid mb-3 rounded">
+                                <p><strong>Pontuação:</strong> 75-79 pontos</p>
+                                <p>Qualidade premium, excelente equilíbrio e ausência de grãos defeituosos.</p>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <article class="card card-classification h-100">
+                            <div class="card-header bg-secondary text-white">
+                                <h3 class="h5 mb-0"><i class="fas fa-coffee"></i> Café Tradicional</h3>
+                            </div>
+                            <div class="card-body">
+                                <img src="/images/iIN5NXFQE13K.webp" alt="Pé de café carregado" loading="lazy" class="img-fluid mb-3 rounded">
+                                <p><strong>Pontuação:</strong> 45-74 pontos</p>
+                                <p>O padrão de consumo diário, com boa qualidade e preço equilibrado.</p>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="comentarios" class="section-comments py-5">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2 class="section-title">Comunidade Arábica</h2>
+                    <p class="lead">Veja as avaliações dos amantes de café e compartilhe a sua experiência.</p>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 mb-4">
+                        <div class="card shadow-sm h-100 border-0">
+                            <!-- CLASSE "theme-header" ADICIONADA AQUI E TEXTO CORRIGIDO -->
+                            <div class="card-header theme-header text-white">
+                                <h3 class="h5 mb-0"><i class="fas fa-comment-dots"></i> Deixe seu Comentário</h3>
+                            </div>
+                            <div class="card-body bg-light">
+                                <div id="comentarioLoginMsg" class="alert alert-warning small">
+                                    <i class="fas fa-lock"></i> Você precisa fazer login para comentar.
+                                </div>
+                                <form id="comentarioForm" style="display: none;" novalidate>
+                                    <div class="mb-3">
+                                        <label for="tipoCafe" class="form-label fw-bold">Café Preferido *</label>
+                                        <select class="form-select" id="tipoCafe" required>
+                                            <option value="">Selecione...</option>
+                                            <option value="Arábica Especial">Arábica Especial</option>
+                                            <option value="Arábica Gourmet">Arábica Gourmet</option>
+                                            <option value="Tradicional">Tradicional</option>
+                                            <option value="Outro">Outro</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="metodoPreparo" class="form-label fw-bold">Método de Preparo *</label>
+                                        <select class="form-select" id="metodoPreparo" required>
+                                            <option value="">Selecione...</option>
+                                            <option value="Coado (Filtro de Papel)">Coado (Filtro de Papel)</option>
+                                            <option value="Prensa Francesa">Prensa Francesa</option>
+                                            <option value="Máquina de Expresso">Máquina de Expresso</option>
+                                            <option value="Cafeteira Italiana (Moka)">Cafeteira Italiana (Moka)</option>
+                                            <option value="Outro">Outro</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="textoComentario" class="form-label fw-bold">Seu Comentário *</label>
+                                        <textarea class="form-control" id="textoComentario" rows="3" placeholder="O que você acha dessa combinação?" required></textarea>
+                                    </div>
+                                    <div id="comentarioFeedback" class="alert small" style="display: none;"></div>
+                                    <button type="submit" class="btn btn-primary w-100 fw-bold">Publicar Comentário</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-8">
+                        <div id="listaComentarios" class="d-flex flex-column gap-3">
+                            <div class="text-center text-muted my-5">
+                                <i class="fas fa-spinner fa-spin fa-2x mb-3"></i>
+                                <p>Carregando comentários...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="formulario" class="section-form py-5">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2 class="section-title">Receba Conteúdos Exclusivos</h2>
+                    <p class="lead">Inscreva-se para aprender mais sobre métodos de preparo e curiosidades.</p>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div id="successMessage" class="alert alert-success mb-4" style="display: none;" role="alert">
+                            <i class="fas fa-check-circle"></i> Inscrição realizada com sucesso! Obrigado por se inscrever.
+                        </div>
+                        <form id="inscricaoForm" class="row g-3 p-4 bg-white shadow rounded" novalidate>
+                            <div class="col-md-6">
+                                <label for="nome" class="form-label">Nome *</label>
+                                <input type="text" class="form-control" id="nome" maxlength="50" required>
+                                <div class="invalid-feedback">O nome deve ter pelo menos 2 letras.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="sobrenome" class="form-label">Sobrenome *</label>
+                                <input type="text" class="form-control" id="sobrenome" maxlength="50" required>
+                                <div class="invalid-feedback">O sobrenome deve ter pelo menos 2 letras.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="telefone" class="form-label">Telefone *</label>
+                                <input type="tel" class="form-control" id="telefone" placeholder="(11) 99999-9999" maxlength="15" required>
+                                <div class="invalid-feedback">Insira um telefone válido com DDD completo.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="email" class="form-label">Email *</label>
+                                <input type="email" class="form-control" id="email" maxlength="100" required>
+                                <div class="invalid-feedback">Insira um email válido contendo @ e o provedor.</div>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="cpf" class="form-label">CPF *</label>
+                                <input type="text" class="form-control" id="cpf" placeholder="000.000.000-00" required>
+                                <div id="cpfFeedback" class="mt-1 small"></div>
+                                <div class="invalid-feedback">Por favor, insira um CPF válido.</div>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="senha" class="form-label">Senha *</label>
+                                <div class="input-group has-validation">
+                                    <input type="password" class="form-control" id="senha" required>
+                                    <button class="btn btn-outline-secondary" type="button" id="toggleSenha" aria-label="Mostrar ou ocultar senha">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <div class="invalid-feedback">A senha não atende a todos os requisitos.</div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-12 mt-4">
+                                <div class="password-requirements p-3 border rounded bg-light">
+                                    <h3 class="h5 mb-2">Requisitos da Senha:</h3>
+                                    <div id="req-length" class="requirement"><i class="fas fa-times text-danger"></i> Mínimo 8 caracteres</div>
+                                    <div id="req-uppercase" class="requirement"><i class="fas fa-times text-danger"></i> Letra maiúscula</div>
+                                    <div id="req-number" class="requirement"><i class="fas fa-times text-danger"></i> Número</div>
+                                    <div id="req-special" class="requirement"><i class="fas fa-times text-danger"></i> Caractere especial (!@#$%^&*)</div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-12 mt-4">
+                                <button type="submit" class="btn btn-primary btn-lg w-100">Inscrever-se</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+<%- include('partials/footer.ejs') %>
