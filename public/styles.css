@@ -911,7 +911,7 @@ a:visited {
     
     .card-classification .bg-success {
         background-color: #104a28 !important;
-    
+    }
     .card-classification .bg-secondary {
         background-color: #343a40 !important;
     }
@@ -939,7 +939,6 @@ a:visited {
             color: #e0e0e0 !important;
             border-left: 4px solid #4a7c59 !important;
         }
-    }
 
 /* ============================================
    SEÇÃO COMENTÁRIOS
