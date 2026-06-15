@@ -116,6 +116,12 @@ npm run dev
 
 ---
 
+## 🐛 Bugs Conhecidos
+
+- Não conseguir editar ou excluir o próprio comentário, caso deslogue e logue novamente.
+
+---
+
 ## 📁 Estrutura do Projeto
 
 ```
