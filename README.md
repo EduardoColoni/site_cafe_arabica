@@ -64,7 +64,7 @@ Caso você tente rodar os comandos abaixo e o terminal bloqueie a execução com
    ```
 3. O sistema fará uma pergunta sobre alterar a política de execução. Digite "A" (Sim para Todos) e pressione Enter. Pronto, seu terminal está liberado para rodar o Node!
 
-### Passo 1 — Instalar as dependências
+### Passo 1 — Instalar as dependências (Rodar todos códigos com o terminal aberto dentro da pasta do projeto!)
 
 ```bash
 npm install
